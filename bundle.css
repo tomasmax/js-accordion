@@ -1,0 +1,38 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Open-sans", Arial, sans-serif; }
+
+.Accordion {
+  margin: 40px auto;
+  padding: 30px;
+  background: #fff;
+  box-sizing: border-box;
+  box-shadow: 0 1.5em 85px 0 rgba(0, 0, 0, 0.2);
+  width: 80%; }
+  @media screen and (max-width: 500px) {
+    .Accordion {
+      width: 100%; } }
+  .Accordion .Accordion-sectionTitle {
+    cursor: pointer;
+    background-color: #aaa;
+    border: 3px solid #ccc6;
+    border-top: 0;
+    padding: 1em .5em;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    box-sizing: border-box;
+    width: 100%; }
+    .Accordion .Accordion-sectionTitle:first-child {
+      border-top: 3px solid #ccc6; }
+  .Accordion .Accordion-sectionContent {
+    border: 3px solid #ccc6;
+    line-height: 1.5;
+    overflow: hidden;
+    transition: all .25s linear; }
+    .Accordion .Accordion-sectionContent p {
+      padding: 5px; }
+
+
+/*# sourceMappingURL=bundle.css.map*/
