@@ -4,28 +4,42 @@ import '../styles/index.scss';
 * @description
 * JS accordion
 *
+* @class
 * @param {(string|Object)} accordionElement - Id or a reference to the DOM element
 * @param {string} sectionElement - Name of the accordion section title element
 * @param {number} [options.openSection=1] - Initialize the accordion with this section open, don't declare to have all section closed
 * @param {boolean} [options.onlyOneOpen=false] - Only one section opened at a time
 */
 
-const Accordion = function (accordionElement, sectionElement, options = {}) {
-  const element = typeof accordionElement === 'string'
-    ? document.getElementById(accordionElement) : accordionElement
+class Accordion {
+  static sectionTitleClass = 'Accordion-sectionTitle'
 
-  const { openSection } = options
-  const onlyOneOpen = options.onlyOneOpen || true
-  const sectionTitleClass = 'Accordion-sectionTitle'
-  const sectionContentClass = 'Accordion-sectionContent'
+  static sectionContentClass = 'Accordion-sectionContent'
+
+  constructor(accordionElement, sectionElement = '', options = {}) {
+    this.element = typeof accordionElement === 'string'
+      ? document.getElementById(accordionElement) : accordionElement
+
+    this.openSection = options.openSection
+    this.sectionElement = sectionElement
+    this.onlyOneOpen = options.onlyOneOpen || true
+
+    this.closeAll = this.closeAll.bind(this)
+    this.handleClick = this.handleClick.bind(this)
+    this.getTarget = this.getTarget.bind(this)
+    this.open = this.open.bind(this)
+    this.render = this.render.bind(this)
+  }
 
   /**
    * Closes all accordion sections
    */
-  function closeAll() {
-    [].forEach.call(element.querySelectorAll(`.${sectionContentClass}`), (item) => {
-      item.style.height = 0
-    })
+  closeAll() {
+    this.element.querySelectorAll(`.${Accordion.sectionContentClass}`).forEach(
+      (item) => {
+        item.style.height = 0
+      }
+    )
   }
 
   /**
@@ -33,7 +47,7 @@ const Accordion = function (accordionElement, sectionElement, options = {}) {
    *
    * @param {object} el - The selected section element
    */
-  function toggleSection(el) {
+  static toggleSection(el) {
     // get the height every time in case it was modified dynamically
     const { scrollHeight } = el
 
@@ -49,17 +63,17 @@ const Accordion = function (accordionElement, sectionElement, options = {}) {
    *
    * @param {object} e - Element the click occured on
    */
-  function handleClick(e) {
+  handleClick(e) {
     const { target } = e
-    if (!target.className.includes(sectionTitleClass)) {
+    if (!target.className.includes(Accordion.sectionTitleClass)) {
       return
     }
 
-    if (onlyOneOpen) {
-      closeAll()
+    if (this.onlyOneOpen) {
+      this.closeAll()
     }
 
-    toggleSection(target.nextElementSibling)
+    Accordion.toggleSection(target.nextElementSibling)
   }
 
   /**
@@ -67,8 +81,8 @@ const Accordion = function (accordionElement, sectionElement, options = {}) {
    *
    * @param {number} i - Index of section to return
    */
-  function getTarget(i) {
-    return element.querySelectorAll(`.${sectionContentClass}`)[i - 1]
+  getTarget(i) {
+    return this.elements[i - 1]
   }
 
   /**
@@ -76,11 +90,11 @@ const Accordion = function (accordionElement, sectionElement, options = {}) {
    *
    * @param {number} i - Index of section to open
    */
-  function open(i) {
-    const target = getTarget(i)
+  open(i) {
+    const target = this.getTarget(i)
 
     if (target) {
-      if (onlyOneOpen) closeAll()
+      if (this.onlyOneOpen) this.closeAll()
       target.style.height = `${target.scrollHeight}px`
     }
   }
@@ -88,35 +102,36 @@ const Accordion = function (accordionElement, sectionElement, options = {}) {
   /**
    * Initial render of the accordion
    */
-  function render() {
+  render() {
     // attach style classes to accordion element section titles and contents
-    [].forEach.call(element.querySelectorAll(sectionElement),
+    this.element.querySelectorAll(this.sectionElement).forEach(
       (item) => {
-        item.classList.add(sectionTitleClass)
-        item.nextElementSibling.classList.add(sectionContentClass)
-      })
+        item.classList.add(Accordion.sectionTitleClass)
+        item.nextElementSibling.classList.add(Accordion.sectionContentClass)
+      }
+    )
 
     // attach event listener to the accordion
-    element.addEventListener('click', handleClick)
+    this.element.addEventListener('click', this.handleClick)
 
     // accordion initialized with all sections closed
-    closeAll()
+    this.closeAll()
 
     // if a open section is defined opens it
-    if (openSection) {
-      open(openSection)
+    if (this.openSection) {
+      open(this.openSection)
     }
   }
-
-  render()
 }
 
-// if a open section is defined opens it
+// creates our accordion
 const accordionDl = new Accordion(
   'accordion',
   'dt',
   {
-    onlyOneOpen: true,
-  })
+    onlyOneOpen: true
+  }
+)
+accordionDl.render()
 
 export default accordionDl
