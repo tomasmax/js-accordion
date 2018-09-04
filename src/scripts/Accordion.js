@@ -26,7 +26,7 @@ export default class Accordion {
 
     this.closeAll = this.closeAll.bind(this)
     this.handleClick = this.handleClick.bind(this)
-    this.getTarget = this.getTarget.bind(this)
+    this.getTarget = this.getContentTarget.bind(this)
     this.open = this.open.bind(this)
     this.render = this.render.bind(this)
 
@@ -90,10 +90,19 @@ export default class Accordion {
   /**
    * Returns the corresponding accordion content element by index
    *
-   * @param {number} i - Index of section to return
+   * @param {number} i - Index of section content to return
    */
-  getTarget(i) {
-    return this.elements[i - 1]
+  getContentTarget(i) {
+    return this.element.querySelectorAll(`.${Accordion.sectionContentClass}`)[i - 1]
+  }
+
+  /**
+   * Returns the corresponding accordion section title element by index
+   *
+   * @param {number} i - Index of section title to return
+   */
+  getTitleTarget(i) {
+    return this.element.querySelectorAll(`.${Accordion.sectionTitleClass}`)[i - 1]
   }
 
   /**
@@ -102,12 +111,11 @@ export default class Accordion {
    * @param {number} i - Index of section to open
    */
   open(i) {
-    const target = this.getTarget(i)
-
-    target.classList.add(Accordion.isOpen)
+    const target = this.getContentTarget(i)
 
     if (target) {
       if (this.onlyOneOpen) this.closeAll()
+      this.getTitleTarget(i).classList.add(Accordion.isOpen)
       target.style.height = `${target.scrollHeight}px`
     }
   }
@@ -129,7 +137,7 @@ export default class Accordion {
 
     // if a open section is defined opens it
     if (this.openSection) {
-      open(this.openSection)
+      this.open(this.openSection)
     }
   }
 }

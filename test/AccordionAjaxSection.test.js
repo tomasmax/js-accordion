@@ -1,4 +1,6 @@
+import 'regenerator-runtime/runtime'
 import Accordion from '../src/scripts/Accordion'
+import AccordionAjaxSection from '../src/scripts/AccordionAjaxSection'
 import htmlMock from './html/html.mock'
 
 const $ = require('jquery')
@@ -10,7 +12,7 @@ describe('Accordion - DOM element passed', () => {
 
     const accordionElement = document.getElementById('accordion')
 
-    const accordion = new Accordion(
+    const accordion = new AccordionAjaxSection(
       accordionElement,
       'dt',
       {
@@ -28,7 +30,7 @@ describe('Accodion - Element ID passed', () => {
   beforeEach(() => {
     document.documentElement.innerHTML = htmlMock
 
-    const accordion = new Accordion(
+    const accordion = new AccordionAjaxSection(
       'accordion',
       'dt',
       {
