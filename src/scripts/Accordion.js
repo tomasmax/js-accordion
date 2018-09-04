@@ -14,6 +14,8 @@ export default class Accordion {
 
   static sectionContentClass = 'Accordion-sectionContent'
 
+  static isOpen = 'is-open'
+
   constructor(accordionElement, sectionElement = '', options = {}) {
     this.element = typeof accordionElement === 'string'
       ? document.getElementById(accordionElement) : accordionElement
@@ -41,6 +43,11 @@ export default class Accordion {
         item.style.height = 0
       }
     )
+    this.element.querySelectorAll(`.${Accordion.sectionTitleClass}`).forEach(
+      (item) => {
+        item.classList.remove(Accordion.isOpen)
+      }
+    )
   }
 
   /**
@@ -66,13 +73,16 @@ export default class Accordion {
    */
   handleClick(e) {
     const { target } = e
-    if (!target.className.includes(Accordion.sectionTitleClass)) {
+    if (!target.className.includes(Accordion.sectionTitleClass)
+      || target.className.includes(Accordion.isOpen)) {
       return
     }
 
     if (this.onlyOneOpen) {
       this.closeAll()
     }
+
+    target.classList.add(Accordion.isOpen)
 
     Accordion.toggleSection(target.nextElementSibling)
   }
@@ -93,6 +103,8 @@ export default class Accordion {
    */
   open(i) {
     const target = this.getTarget(i)
+
+    target.classList.add(Accordion.isOpen)
 
     if (target) {
       if (this.onlyOneOpen) this.closeAll()

@@ -22,7 +22,7 @@ $image-size: 400px;
   
   .Accordion-sectionTitle {
     cursor: pointer;
-    background-color: #aaa;
+    background: #aaa;
     border: $border;
     border-top: 0;
     padding: 1em .5em;
@@ -31,6 +31,11 @@ $image-size: 400px;
     border-radius: $radius;
     box-sizing: border-box;
     width: 100%;
+
+    &.is-open {
+      background: #2980b9;
+      color: #fff;
+    }
 
     &:first-child {
       border-top: $border;

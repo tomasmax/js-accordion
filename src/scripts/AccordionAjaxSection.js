@@ -1,4 +1,5 @@
 import Accordion from './Accordion'
+import makeAjaxRequest from './helpers/ajaxRequest'
 
 /**
 * @description
@@ -20,28 +21,15 @@ export default class AccordionAjaxSection extends Accordion {
     this.handleClick = this.handleClick.bind(this)
   }
 
-  static makeAjaxRequest(method, url) {
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest()
-      xhr.open(method, url)
-      xhr.onload = function () {
-        if (this.status >= 200 && this.status < 300) {
-          resolve(xhr.response)
-        } else {
-          reject({ // eslint-disable-line prefer-promise-reject-errors
-            status: this.status,
-            statusText: xhr.statusText
-          })
-        }
-      }
-      xhr.onerror = function () {
-        reject({ // eslint-disable-line prefer-promise-reject-errors
-          status: this.status,
-          statusText: xhr.statusText
-        })
-      }
-      xhr.send()
-    })
+  static loadGithubData(element, response) {
+    element.getElementsByTagName('img')[0].src = response.avatar_url
+    element.getElementsByTagName('p')[0].innerHTML = response.name
+    const webLink = element.getElementsByTagName('a')[0]
+    webLink.href = element.blog
+    webLink.innerHTML = response.blog
+    const githubLink = element.getElementsByTagName('a')[1]
+    githubLink.href = response.html_url
+    githubLink.innerHTML = response.html_url
   }
 
   /**
@@ -51,24 +39,16 @@ export default class AccordionAjaxSection extends Accordion {
    */
   async handleClick(e) {
     const { target } = e
-    if (!target.className.includes(AccordionAjaxSection.ajaxSectionClass)) {
+    if (!target.className.includes(AccordionAjaxSection.ajaxSectionClass)
+      || target.className.includes(Accordion.isOpen)) {
       super.handleClick(e)
     } else {
       try {
-        let response = await AccordionAjaxSection.makeAjaxRequest('GET', `https://api.github.com/users/${this.userName}`)
+        let response = await makeAjaxRequest('GET', `https://api.github.com/users/${this.userName}`)
         response = JSON.parse(response)
         const { nextElementSibling } = target
         console.log(response) // eslint-disable-line no-console
-
-        nextElementSibling.getElementsByTagName('img')[0].src = response.avatar_url
-        nextElementSibling.getElementsByTagName('p')[0].innerHTML = response.name
-        const webLink = nextElementSibling.getElementsByTagName('a')[0]
-        webLink.href = response.blog
-        webLink.innerHTML = response.blog
-        const githubLink = nextElementSibling.getElementsByTagName('a')[1]
-        githubLink.href = response.html_url
-        githubLink.innerHTML = response.html_url
-
+        AccordionAjaxSection.loadGithubData(nextElementSibling, response)
         super.handleClick(e)
       } catch (error) {
         console.error('Ouch, there was an error!', error.statusText) // eslint-disable-line no-console
