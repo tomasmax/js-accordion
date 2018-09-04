@@ -6,7 +6,7 @@
 * @param {(string|Object)} accordionElement - Id or a reference to the DOM element
 * @param {string} sectionElement - Name of the accordion section title element
 * @param {number} [options.openSection=1] - Initialize the accordion with this section open, don't declare to have all section closed
-* @param {boolean} [options.onlyOneOpen=false] - Only one section opened at a time
+* @param {boolean} [options.onlyOneOpen=true] - Only one section opened at a time
 */
 
 export default class Accordion {

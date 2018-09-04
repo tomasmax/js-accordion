@@ -1,8 +1,6 @@
 import '../styles/index.scss';
 
-import Accordion from './Accordion'
 import AccordionAjaxSection from './AccordionAjaxSection'
-
 
 // creates accordion 1
 const accordion1 = new AccordionAjaxSection(
