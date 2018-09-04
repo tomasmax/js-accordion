@@ -15,7 +15,7 @@
       width: 100%; } }
   .Accordion .Accordion-sectionTitle {
     cursor: pointer;
-    background-color: #aaa;
+    background: #aaa;
     border: 3px solid #ccc6;
     border-top: 0;
     padding: 1em .5em;
@@ -24,6 +24,9 @@
     border-radius: 3px;
     box-sizing: border-box;
     width: 100%; }
+    .Accordion .Accordion-sectionTitle.is-open {
+      background: #2980b9;
+      color: #fff; }
     .Accordion .Accordion-sectionTitle:first-child {
       border-top: 3px solid #ccc6; }
   .Accordion .Accordion-sectionContent {
