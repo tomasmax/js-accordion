@@ -26,7 +26,7 @@ element | string or object |  | id of the Accordion element or the DOM element
 sectionElement | string |  | id of the title sections of the accordion
 options.openSection | int  |  | Number of section to open at initialization
 options.onlyOneOpen | boolean | true | if true only one section open a time
-userName | string | Github username to fetch data from github's API
+userName | string | | Github username to fetch data from github's API
 
 
 ## Running locally
