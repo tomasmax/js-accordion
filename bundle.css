@@ -33,6 +33,14 @@
     transition: all .25s linear; }
     .Accordion .Accordion-sectionContent p {
       padding: 5px; }
+  .Accordion .Accordion-githubAvatarContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center; }
+    .Accordion .Accordion-githubAvatarContent img {
+      padding: 10px;
+      width: 400px;
+      height: 400px; }
 
 
 /*# sourceMappingURL=bundle.css.map*/
