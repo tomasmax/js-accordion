@@ -18,7 +18,8 @@ describe('Accordion - DOM element passed', () => {
       {
         openSection: 2,
         onlyOneOpen: true
-      }
+      },
+      'tomasmax'
     )
     accordion.render()
   })
@@ -36,7 +37,8 @@ describe('Accodion - Element ID passed', () => {
       {
         openSection: 2,
         onlyOneOpen: true
-      }
+      },
+      'tomasmax'
     )
     accordion.render()
   });
@@ -77,5 +79,6 @@ function sharedTests() {
 
       expect(sectionTitle.className).toBe(`${Accordion.sectionTitleClass} ${Accordion.isOpen}`)
     })
+
   })
 }

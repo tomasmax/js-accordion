@@ -62,6 +62,7 @@ function sharedTests() {
       expect($('#accordion > dd')[2].className).toBe(Accordion.sectionContentClass)
       expect($('#accordion > dd')[3].className).toBe(Accordion.sectionContentClass)
     })
+
   })
 
   describe('accordion behaviour', () => {
